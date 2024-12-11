@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  relationMode    = "prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+id              Int       @id @default(autoincrement())
+  username      String    
+  userLoginId   String    @unique
+  password      String
+  profileImage  Bytes?    // 프로필 이미지를 BLOB으로 저장 (nullable)
+  notes         Note[]    @relation
+}
+
+model Note {
+  id            Int       @id @default(autoincrement())
+  title         String
+  createdAt     DateTime  @default(now())
+  userId        Int
+  isFavorite    Boolean   @default(false)
+  contents      Content[] @relation
+  musics        Music[]   @relation("NoteMusic")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Content {
+  id            Int       @id @default(autoincrement())
+  type          String
+  value         String
+  noteId        Int       @unique
+  comments      Comment[] @relation
+  note          Note      @relation(fields: [noteId], references: [id], onDelete: Cascade)
+}
+
+model Music {
+  id            Int       @id @default(autoincrement())
+  filePath      String    
+  fileName      String    
+  noteId        Int       
+  note          Note      @relation("NoteMusic", fields: [noteId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now())
+}
+
+model Comment {
+  id            Int       @id @default(autoincrement())
+  value         String
+  createdAt     DateTime  @default(now())
+  contentId     Int       
+  content       Content   @relation(fields: [contentId], references: [id], onDelete: Cascade)
+}
+
+

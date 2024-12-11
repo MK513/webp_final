@@ -19,3 +19,23 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+html[data-font="sans"] body {
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+html[data-font="mono"] body {
+  font-family: var(--font-geist-mono), monospace;
+}
+
+html[data-font="agro"] body {
+  font-family: var(--font-agro), sans-serif;
+}
+
+html[data-font="chosun"] body {
+  font-family: var(--font-chosun), sans-serif;
+}
+
+html[data-font="logy"] body {
+  font-family: var(--font-logy), sans-serif !important;
+}
