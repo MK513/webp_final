@@ -11,6 +11,7 @@ const SearchItem = ({ noteId, title, word }) => {
 
     const newSearchParams = new URLSearchParams();
     newSearchParams.set("id", noteId);
+    newSearchParams.set("word", word);
     const newPath = `/note?${newSearchParams.toString()}`;
     router.push(newPath);
   };

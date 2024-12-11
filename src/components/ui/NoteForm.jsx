@@ -1,13 +1,15 @@
 "use client";
 import clsx from "clsx";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { updateContent, updateTitle } from "@/actions";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import RightSidebar from "@/components/ui/RightSidebar";
 import { useTheme, usePageTheme } from "@/components/ThemeProvider";
 
 const NoteForm = ({ currentNote, userId, noteId, comments, musics }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const highlightWord = searchParams.get("word");
 
   const [title, setTitle] = useState(currentNote.title);
   const [content, setContent] = useState(currentNote.contents[0].value);
@@ -35,6 +37,11 @@ const NoteForm = ({ currentNote, userId, noteId, comments, musics }) => {
     updateContent(currentNote.id, newContent);
   };
 
+  // 하이라이트 처리 로직
+  const highlightedText = highlightWord
+    ? content.replace(new RegExp(`(${highlightWord})`, "gi"), "<mark>$1</mark>")
+    : content;
+
   return (
     <div className={clsx("flex justify-between min-h-screen w-full", pgTheme)}>
       <div className='flex justify-center flex-grow p-4 w-full'>
@@ -53,7 +60,34 @@ const NoteForm = ({ currentNote, userId, noteId, comments, musics }) => {
               onBlur={() => setIsTitleFocused(false)}
               placeholder='Enter title'
             />
-            {/* 본문 필드 */}
+            <div className='relative'>
+              {/* 하이라이트용 백그라운드 레이어 */}
+              <div
+                className='absolute top-0 left-0 w-full h-full pointer-events-none whitespace-pre-wrap p-4'
+                dangerouslySetInnerHTML={{ __html: highlightedText }}
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                  color: "transparent",
+                  overflowWrap: "break-word",
+                }}
+              ></div>
+
+              {/* 실제 입력받는 textarea */}
+              <textarea
+                className={`text-base outline-none w-full h-64 p-4 ${
+                  isContentFocused
+                    ? "border-2 border-blue-300"
+                    : "border border-gray-300"
+                }`}
+                value={content}
+                onChange={handleContentChange}
+                onFocus={() => setIsContentFocused(true)}
+                onBlur={() => setIsContentFocused(false)}
+                placeholder='Enter content'
+              />
+            </div>
+            {/* 본문 필드
             <textarea
               className={`text-base outline-none w-full h-64 p-4 ${
                 isContentFocused
@@ -65,7 +99,7 @@ const NoteForm = ({ currentNote, userId, noteId, comments, musics }) => {
               onFocus={() => setIsContentFocused(true)}
               onBlur={() => setIsContentFocused(false)}
               placeholder='Enter content'
-            />
+            /> */}
           </div>
         </div>
       </div>
