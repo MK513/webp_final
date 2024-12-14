@@ -9,8 +9,8 @@ export async function DELETE(request) {
     const musicData = formData.get("music"); // `file` 필드에서 파일 가져오기
     const music = JSON.parse(musicData);
 
-    console.log("MUSIC", music);
-    console.log("MUSICID", music.id);
+    // console.log("MUSIC", music);
+    // console.log("MUSICID", music.id);
 
     if (!music) {
       return NextResponse.json({ error: "No music provided" }, { status: 400 });

@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
 import { useTheme } from "@/components/ThemeProvider";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { deleteNote, toggleFavorite } from "@/actions";
 
@@ -14,21 +14,10 @@ const LeftSidebarItem = ({
   setFocus,
 }) => {
   const router = useRouter();
-  const dropdownRef = useRef(null);
   const searchParams = useSearchParams();
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorite, setFavorite] = useState(curFavorite);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const { theme } = useTheme();
-
-  const handleToggleDropdown = () => {
-    setIsDropdownOpen((prev) => !prev);
-  };
-
-  const handleCloseDropdown = () => {
-    setIsDropdownOpen(false);
-  };
 
   const handleDeleteNote = () => {
     // 노트 삭제
@@ -86,33 +75,30 @@ const LeftSidebarItem = ({
                   e.stopPropagation(); // 이벤트 전파 중단
                   handleFavoriteToggle();
                 }}
-                className='text-yellow-500 hover:text-yellow-600'
                 aria-label='Toggle favorite'
               >
-                {isFavorite ? (
-                  // 칠해진 별 (filled star)
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 32 32'
-                    fill='currentColor'
-                    className='w-6 h-6'
-                  >
-                    <path d='M12 .587l3.668 7.433 8.2 1.19-5.933 5.785 1.4 8.165L12 18.897l-7.334 3.863 1.4-8.165L.133 9.21l8.2-1.19L12 .587z' />
-                  </svg>
-                ) : (
-                  // 속이 빈 별 (outlined star)
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 32 32'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth={2}
-                    className='w-6 h-6'
-                  >
-                    <path d='M12 .587l3.668 7.433 8.2 1.19-5.933 5.785 1.4 8.165L12 18.897l-7.334 3.863 1.4-8.165L.133 9.21l8.2-1.19L12 .587z' />
-                  </svg>
-                )}
+                {/* 속이 빈 별 (outlined star) */}
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 32 32'
+                  fill='none'
+                  stroke='currentColor'
+                  strokeWidth={2}
+                  className='w-6 h-6'
+                >
+                  <path d='M12 .587l3.668 7.433 8.2 1.19-5.933 5.785 1.4 8.165L12 18.897l-7.334 3.863 1.4-8.165L.133 9.21l8.2-1.19L12 .587z' />
+                </svg>
               </button>
+            ) : isFavorite ? (
+              // 칠해진 별 (filled star)
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 32 32'
+                fill='currentColor'
+                className='w-6 h-6'
+              >
+                <path d='M12 .587l3.668 7.433 8.2 1.19-5.933 5.785 1.4 8.165L12 18.897l-7.334 3.863 1.4-8.165L.133 9.21l8.2-1.19L12 .587z' />
+              </svg>
             ) : (
               // 기본 아이콘
               <svg
