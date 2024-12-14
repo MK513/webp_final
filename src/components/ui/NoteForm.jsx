@@ -39,7 +39,13 @@ const NoteForm = ({ currentNote, userId, noteId, comments, musics }) => {
 
   // 하이라이트 처리 로직
   const highlightedText = highlightWord
-    ? content.replace(new RegExp(`(${highlightWord})`, "gi"), "<mark>$1</mark>")
+    ? content.replace(
+        new RegExp(`(${highlightWord})`, "gi"),
+        `<span style="
+        background-color: yellow;
+        color: transparent;
+      ">$1</span>`
+      )
     : content;
 
   return (
@@ -63,12 +69,13 @@ const NoteForm = ({ currentNote, userId, noteId, comments, musics }) => {
             <div className='relative'>
               {/* 하이라이트용 백그라운드 레이어 */}
               <div
-                className='absolute top-0 left-0 w-full h-full pointer-events-none whitespace-pre-wrap p-4 border-none'
+                className='absolute top-0 left-0 w-full h-full pointer-events-none whitespace-pre-wrap p-4'
                 dangerouslySetInnerHTML={{ __html: highlightedText }}
                 style={{
                   border: "none",
                   color: "transparent",
                   overflowWrap: "break-word",
+                  zIndex: 0, // 레이어를 뒤로
                 }}
               ></div>
 
@@ -79,6 +86,11 @@ const NoteForm = ({ currentNote, userId, noteId, comments, musics }) => {
                     ? "border-2 border-blue-300"
                     : "border border-gray-300"
                 }`}
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  backgroundColor: "transparent",
+                }}
                 value={content}
                 onChange={handleContentChange}
                 onFocus={() => setIsContentFocused(true)}

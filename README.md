@@ -6,7 +6,7 @@ To start the project, use the following cmd.
 
 ```bash
 npm install
-npx prisma migrate dev —name init
+npx prisma migrate dev --name init
 npm run dev
 ```
 

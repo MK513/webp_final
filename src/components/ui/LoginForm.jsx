@@ -23,15 +23,10 @@ const LoginForm = () => {
       password,
     });
 
-    // console.log(userLoginId, password);
-    // console.log(result);
-
     if (result.error) {
       setError("Invalid credentials");
       setShowModal(true); // 에러가 발생하면 모달을 표시
     } else {
-      // const session = await getSession();
-      // console.log("세션 데이터:", session);
       redirect(`/home`);
     }
   };

@@ -84,7 +84,7 @@ const MusicItem = ({ userId, noteId, music, sideStyles }) => {
           showDownloadProgress={true}
           customProgressBarSection={[
             "CURRENT_TIME",
-            <span>&nbsp;/&nbsp;</span>,
+            <span key='11'>&nbsp;/&nbsp;</span>,
             "DURATION",
           ]}
           customAdditionalControls={[

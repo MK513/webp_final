@@ -19,7 +19,7 @@ const SearchItem = ({ noteId, title, word }) => {
   return (
     <li className='rounded-md'>
       <div onClick={handleClick} className='justify-center'>
-        <span className='font-semibold'>{title}</span> : Matched '{matchedWord}'
+        <span className='font-semibold'>{title}</span> : Matched `{matchedWord}`
       </div>
     </li>
   );
